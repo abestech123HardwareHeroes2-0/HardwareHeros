@@ -1,6 +1,6 @@
 # Hardware Heroes 2.0
 
-A lightweight Python utility that displays basic hardware and operating-system information for the computer it runs on.
+A Python utility that detects and displays basic hardware information for the machine it runs on, including CPU, RAM, and operating system details.
 
 ## Features
 
