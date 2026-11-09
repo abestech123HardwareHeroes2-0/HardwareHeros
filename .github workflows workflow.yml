@@ -1,17 +1,24 @@
-yml
-name: My-Hardware-Detection-Workflow
+name: Hardware Heroes
+
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+
 jobs:
   hardware-detection:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
       - name: Install dependencies
-        run: |
-          pip install psutil
-      - name: Detect Hardware
-        run: |
-          python3 ${GITHUB_WORKSPACE}/detect_hardware.py
+        run: python -m pip install psutil
+
+      - name: Detect hardware
+        run: python detect_hardware.py
