@@ -1,119 +1,892 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Hardware Heroes detects basic CPU, memory, and operating system information.">
-  <title>Hardware Heroes 2.0</title>
-  <style>
-    :root {
-      color-scheme: light;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: #172033;
-      background: #f4f7fb;
-    }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Hardware Heroes 2.0 helps you detect and understand your system hardware in seconds."
+    />
+    <title>Hardware Heroes 2.0</title>
+    <style>
+      :root {
+        --bg: #07111f;
+        --bg-soft: #0e1a2b;
+        --panel: #101f34;
+        --panel-2: #122744;
+        --card: rgba(255, 255, 255, 0.04);
+        --line: rgba(255, 255, 255, 0.08);
+        --text: #edf4ff;
+        --muted: #a8bfdc;
+        --brand: #5cc8ff;
+        --brand-2: #69f0c7;
+        --accent: #ffc857;
+        --shadow: 0 30px 90px rgba(1, 10, 24, 0.55);
+      }
 
-    * { box-sizing: border-box; }
+      * { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 2rem 1rem;
-    }
+      html { scroll-behavior: smooth; }
 
-    main {
-      width: min(100%, 720px);
-      padding: clamp(2rem, 6vw, 4rem);
-      background: white;
-      border: 1px solid #e3e9f2;
-      border-radius: 24px;
-      box-shadow: 0 20px 60px rgb(23 32 51 / 8%);
-    }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(92, 200, 255, 0.18), transparent 28%),
+          radial-gradient(circle at bottom right, rgba(105, 240, 199, 0.14), transparent 32%),
+          var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
 
-    .badge {
-      display: inline-block;
-      padding: 0.4rem 0.75rem;
-      border-radius: 999px;
-      color: #1746a2;
-      background: #eaf1ff;
-      font-size: 0.85rem;
-      font-weight: 700;
-    }
+      a { color: inherit; text-decoration: none; }
+      img { max-width: 100%; display: block; }
 
-    h1 {
-      margin: 1.25rem 0 0.75rem;
-      font-size: clamp(2.2rem, 7vw, 3.5rem);
-      line-height: 1.08;
-    }
+      .container {
+        width: min(1180px, calc(100% - 2rem));
+        margin: 0 auto;
+      }
 
-    p {
-      color: #526078;
-      font-size: 1.1rem;
-      line-height: 1.7;
-    }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(18px);
+        background: rgba(7, 17, 31, 0.72);
+        border-bottom: 1px solid var(--line);
+      }
 
-    h2 { margin-top: 2rem; }
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 74px;
+      }
 
-    ul {
-      padding-left: 1.25rem;
-      color: #36445c;
-      line-height: 1.9;
-    }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
 
-    .note {
-      margin-top: 2rem;
-      padding: 1rem 1.25rem;
-      border-left: 4px solid #3973e6;
-      border-radius: 8px;
-      background: #f2f6ff;
-      font-size: 0.95rem;
-    }
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        color: var(--bg);
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--brand), var(--brand-2));
+        box-shadow: var(--shadow);
+      }
 
-    .button {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.8rem 1.1rem;
-      border-radius: 10px;
-      color: white;
-      background: #245bd6;
-      font-weight: 700;
-      text-decoration: none;
-    }
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
 
-    .button:hover { background: #1746a2; }
-  </style>
-</head>
-<body>
-  <main>
-    <span class="badge">Python hardware utility</span>
-    <h1>Hardware Heroes 2.0</h1>
-    <p>
-      A small Python project that detects and displays basic information
-      about a computer’s CPU, memory, and operating system.
-    </p>
+      .nav a:hover { color: var(--text); }
 
-    <h2>Features</h2>
-    <ul>
-      <li>CPU information and core counts</li>
-      <li>Total installed RAM</li>
-      <li>Operating system and version</li>
-    </ul>
+      .nav-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.8rem 1.1rem;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--brand), var(--brand-2));
+        color: #02131d;
+        font-weight: 700;
+        box-shadow: 0 18px 40px rgba(92, 200, 255, 0.35);
+      }
 
-    <h2>Run it locally</h2>
-    <p>Install Python 3.9 or later, then run these commands from the project directory:</p>
-    <pre><code>python -m pip install psutil
-python detect-hardware.py</code></pre>
+      .hero {
+        padding: 90px 0 40px;
+      }
 
-    <a class="button" href="https://github.com/abestech123HardwareHeroes2-0/HardwareHeroes-2.0">
-      View the project on GitHub
-    </a>
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 2rem;
+        align-items: center;
+      }
 
-    <p class="note">
-      This page is a static project website. The Python script runs locally
-      or in GitHub Actions; it does not detect a visitor’s computer from this page.
-    </p>
-  </main>
-</body>
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.45rem 0.8rem;
+        border-radius: 999px;
+        border: 1px solid rgba(92, 200, 255, 0.3);
+        background: rgba(92, 200, 255, 0.08);
+        color: var(--brand);
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 1.2rem 0 1rem;
+        font-size: clamp(2.7rem, 5vw, 5rem);
+        line-height: 0.96;
+        letter-spacing: -0.06em;
+      }
+
+      .accent { color: var(--brand-2); }
+
+      .lead {
+        max-width: 640px;
+        color: var(--muted);
+        font-size: 1.09rem;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 50px;
+        padding: 0.9rem 1.4rem;
+        border-radius: 14px;
+        font-weight: 700;
+        transition: 0.2s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--brand), var(--brand-2));
+        color: #041621;
+        box-shadow: 0 18px 40px rgba(92, 200, 255, 0.25);
+      }
+
+      .btn-secondary {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.02);
+        color: var(--text);
+      }
+
+      .btn:hover { transform: translateY(-1px); }
+
+      .hero-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.25rem;
+        margin-top: 2rem;
+      }
+
+      .stat {
+        min-width: 130px;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        letter-spacing: -0.04em;
+      }
+
+      .stat span {
+        color: var(--muted);
+      }
+
+      .hero-panel {
+        position: relative;
+      }
+
+      .device {
+        position: relative;
+        padding: 1.25rem;
+        border-radius: 28px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+        box-shadow: var(--shadow);
+      }
+
+      .device-head {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.25);
+      }
+
+      .dot:nth-child(1) { background: #ff6b6b; }
+      .dot:nth-child(2) { background: #f9bd4a; }
+      .dot:nth-child(3) { background: #3ddc97; }
+
+      .system-card {
+        margin-top: 1.25rem;
+        padding: 1.2rem;
+        border-radius: 18px;
+        background: linear-gradient(180deg, rgba(92,200,255,0.08), rgba(105,240,199,0.04));
+        border: 1px solid rgba(92,200,255,0.18);
+      }
+
+      .system-card h3 {
+        margin: 0 0 0.75rem;
+        font-size: 1.05rem;
+      }
+
+      .metric-list {
+        display: grid;
+        gap: 0.7rem;
+        color: var(--muted);
+      }
+
+      .metric {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.65rem 0.8rem;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.05);
+      }
+
+      .metric strong { color: var(--text); }
+
+      section {
+        padding: 52px 0;
+      }
+
+      .section-header {
+        margin-bottom: 2rem;
+        max-width: 760px;
+      }
+
+      .section-header h2 {
+        margin: 0 0 0.6rem;
+        font-size: clamp(2rem, 3vw, 3rem);
+        letter-spacing: -0.05em;
+      }
+
+      .section-header p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1.2rem;
+      }
+
+      .feature-card,
+      .gallery-card,
+      .price-card,
+      .testimonial,
+      .faq-item {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+      }
+
+      .feature-card {
+        padding: 1.25rem;
+      }
+
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        font-size: 1.25rem;
+        background: linear-gradient(135deg, rgba(92,200,255,0.14), rgba(105,240,199,0.12));
+        border: 1px solid rgba(92,200,255,0.18);
+      }
+
+      .feature-card h3 {
+        margin: 1rem 0 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      .feature-card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .showcase-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.2rem;
+      }
+
+      .gallery-card {
+        overflow: hidden;
+      }
+
+      .gallery-image {
+        height: 220px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .gallery-copy {
+        padding: 1rem 1rem 1.2rem;
+      }
+
+      .gallery-copy h3 {
+        margin: 0 0 0.3rem;
+        font-size: 1.1rem;
+      }
+
+      .gallery-copy p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .video-wrap {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 1.5rem;
+        align-items: center;
+        background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        padding: 1.2rem;
+      }
+
+      .video-box {
+        position: relative;
+        min-height: 320px;
+        border-radius: 20px;
+        overflow: hidden;
+        background:
+          linear-gradient(135deg, rgba(9,24,38,0.15), rgba(9,24,38,0.42)),
+          url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+        border: 1px solid rgba(255,255,255,0.06);
+      }
+
+      .play-button {
+        position: absolute;
+        inset: 50% auto auto 50%;
+        transform: translate(-50%, -50%);
+        width: 80px;
+        height: 80px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.18);
+        backdrop-filter: blur(12px);
+        color: var(--text);
+        font-size: 2rem;
+        cursor: pointer;
+      }
+
+      .video-copy h3 {
+        margin-top: 0;
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        letter-spacing: -0.04em;
+      }
+
+      .video-copy p {
+        color: var(--muted);
+      }
+
+      .price-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.2rem;
+      }
+
+      .price-card {
+        padding: 1.5rem;
+      }
+
+      .price-card.featured {
+        border-color: rgba(105,240,199,0.35);
+        background: linear-gradient(180deg, rgba(105,240,199,0.08), rgba(255,255,255,0.02));
+      }
+
+      .tag {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.45rem 0.7rem;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.04);
+        color: var(--brand);
+        border: 1px solid rgba(92,200,255,0.2);
+      }
+
+      .price-card h3 {
+        margin: 1rem 0 0.5rem;
+        font-size: 2rem;
+      }
+
+      .price-card p {
+        color: var(--muted);
+      }
+
+      .price-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 1.4rem 0;
+        display: grid;
+        gap: 0.7rem;
+        color: var(--text);
+      }
+
+      .price-card li::before {
+        content: "✓";
+        color: var(--brand-2);
+        margin-right: 0.6rem;
+      }
+
+      .testimonials {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.2rem;
+      }
+
+      .testimonial {
+        padding: 1.3rem 1.2rem;
+      }
+
+      .testimonial p {
+        margin: 0 0 1rem;
+        color: var(--muted);
+      }
+
+      .person {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .person-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--brand), var(--brand-2));
+        color: var(--bg);
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+      }
+
+      .faq-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .faq-item {
+        padding: 1.2rem 1.15rem;
+      }
+
+      .faq-item h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1.05rem;
+      }
+
+      .faq-item p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .cta {
+        padding: 32px 0 90px;
+      }
+
+      .cta-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.5rem 1.6rem;
+        border-radius: 24px;
+        background: linear-gradient(135deg, rgba(92,200,255,0.12), rgba(105,240,199,0.1));
+        border: 1px solid rgba(92,200,255,0.2);
+      }
+
+      .cta h3 {
+        margin: 0;
+        font-size: clamp(1.6rem, 3vw, 2.5rem);
+        letter-spacing: -0.04em;
+      }
+
+      .cta p {
+        color: var(--muted);
+        margin: 0;
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 1.5rem 0 4rem;
+        color: var(--muted);
+      }
+
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .video-wrap,
+        .feature-grid,
+        .showcase-grid,
+        .price-grid,
+        .testimonials,
+        .faq-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .nav { display: none; }
+
+        .feature-grid,
+        .showcase-grid,
+        .price-grid,
+        .testimonials,
+        .faq-grid,
+        .video-wrap {
+          grid-template-columns: 1fr;
+        }
+
+        .hero { padding-top: 60px; }
+        .cta-box,
+        .footer-inner {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a href="#top" class="brand" aria-label="Hardware Heroes home">
+          <span class="brand-mark">H</span>
+          <span>Hardware Heroes 2.0</span>
+        </a>
+
+        <nav class="nav" aria-label="Main navigation">
+          <a href="#features">Features</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#videos">Videos</a>
+          <a href="#pricing">Support</a>
+          <a href="#faq">FAQ</a>
+          <a href="#support" class="nav-cta">Become a supporter</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <span class="eyebrow">Python hardware utility</span>
+            <h1>Know your system in <span class="accent">seconds.</span></h1>
+            <p class="lead">
+              Hardware Heroes 2.0 is a clean, fast, and practical Python utility that reveals the core details of your computer — CPU, memory, and operating system — with clarity and precision.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#features" class="btn btn-primary">Explore features</a>
+              <a href="#videos" class="btn btn-secondary">Watch demo</a>
+            </div>
+
+            <div class="hero-stats" aria-label="Project statistics">
+              <div class="stat">
+                <strong>3+</strong>
+                <span>Core features</span>
+              </div>
+              <div class="stat">
+                <strong>1</strong>
+                <span>Python script</span>
+              </div>
+              <div class="stat">
+                <strong>24/7</strong>
+                <span>Open for use</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-panel" aria-label="Hardware summary card">
+            <div class="device">
+              <div class="device-head">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
+
+              <div class="system-card">
+                <h3>System report</h3>
+                <div class="metric-list">
+                  <div class="metric"><span>CPU</span><strong>Intel Core</strong></div>
+                  <div class="metric"><span>Cores</span><strong>8</strong></div>
+                  <div class="metric"><span>Threads</span><strong>16</strong></div>
+                  <div class="metric"><span>RAM</span><strong>16 GB</strong></div>
+                  <div class="metric"><span>OS</span><strong>Windows 11</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features">
+        <div class="container">
+          <div class="section-header">
+            <h2>Built for clarity and speed</h2>
+            <p>Hardware Heroes gives you the essentials you need to understand the machine you are using, without clutter or confusion.</p>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature-card">
+              <div class="feature-icon">💻</div>
+              <h3>CPU insights</h3>
+              <p>Identify the processor family and hardware profile in a clean, readable format.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-icon">🧠</div>
+              <h3>Core analysis</h3>
+              <p>See both physical cores and logical threads to understand system capability.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-icon">🧾</div>
+              <h3>Memory overview</h3>
+              <p>Display total installed RAM instantly so you know the system capacity at a glance.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-icon">🛠️</div>
+              <h3>OS details</h3>
+              <p>Capture the operating system and version for quick reporting and troubleshooting.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="gallery">
+        <div class="container">
+          <div class="section-header">
+            <h2>Gallery</h2>
+            <p>Preview the experience and the way this project is presented to users.</p>
+          </div>
+
+          <div class="showcase-grid">
+            <article class="gallery-card">
+              <div class="gallery-image" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80');"></div>
+              <div class="gallery-copy">
+                <h3>System view</h3>
+                <p>Built to highlight key hardware specs in a modern, simple layout.</p>
+              </div>
+            </article>
+
+            <article class="gallery-card">
+              <div class="gallery-image" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80');"></div>
+              <div class="gallery-copy">
+                <h3>Developer workflow</h3>
+                <p>Useful for setup, troubleshooting, and system documentation.</p>
+              </div>
+            </article>
+
+            <article class="gallery-card">
+              <div class="gallery-image" style="background-image: url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80');"></div>
+              <div class="gallery-copy">
+                <h3>Performance tools</h3>
+                <p>Perfect for a clean visual summary of your machine’s capabilities.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="videos">
+        <div class="container">
+          <div class="section-header">
+            <h2>Product demo</h2>
+            <p>Use this section for a walkthrough video or a short product introduction.</p>
+          </div>
+
+          <div class="video-wrap">
+            <div class="video-box" aria-label="Demo video placeholder">
+              <button class="play-button" aria-label="Play demo video">▶</button>
+            </div>
+
+            <div class="video-copy">
+              <h3>See how it works</h3>
+              <p>
+                Add your own demo video link, product walkthrough, or launch sequence here to show the tool in action. This section is perfectly suited for a short presentation, onboarding clip, or product tour.
+              </p>
+              <a href="#support" class="btn btn-primary">Support the project</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing">
+        <div class="container">
+          <div class="section-header">
+            <h2>Support the project</h2>
+            <p>Choose a contribution option and help keep the project growing.</p>
+          </div>
+
+          <div class="price-grid">
+            <article class="price-card">
+              <span class="tag">Starter</span>
+              <h3>$5</h3>
+              <p>Show support and help fund improvements.</p>
+              <ul>
+                <li>Project support</li>
+                <li>Early access updates</li>
+                <li>Community appreciation</li>
+              </ul>
+              <a href="#" class="btn btn-secondary">Add link here</a>
+            </article>
+
+            <article class="price-card featured">
+              <span class="tag">Popular</span>
+              <h3>$15</h3>
+              <p>For supporters who want to help push new features forward.</p>
+              <ul>
+                <li>Priority feature requests</li>
+                <li>Project updates</li>
+                <li>Supporter badge</li>
+              </ul>
+              <a href="#" class="btn btn-primary">Add link here</a>
+            </article>
+
+            <article class="price-card">
+              <span class="tag">Pro</span>
+              <h3>$30</h3>
+              <p>Premium support for ongoing development.</p>
+              <ul>
+                <li>Advanced support</li>
+                <li>Direct feedback channel</li>
+                <li>Project roadmap access</li>
+              </ul>
+              <a href="#" class="btn btn-secondary">Add link here</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="section-header">
+            <h2>What people say</h2>
+            <p>Feedback and user trust make projects stronger.</p>
+          </div>
+
+          <div class="testimonials">
+            <article class="testimonial">
+              <p>“A clean and useful utility that makes it easy to understand the system at a glance.”</p>
+              <div class="person">
+                <div class="person-avatar">A</div>
+                <div>
+                  <strong>Alex</strong><br />
+                  <span>Developer</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial">
+              <p>“Fast, reliable, and simple enough to use for troubleshooting and reporting.”</p>
+              <div class="person">
+                <div class="person-avatar">M</div>
+                <div>
+                  <strong>Maria</strong><br />
+                  <span>IT Support</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial">
+              <p>“A perfect example of a minimal tool that adds real value to everyday workflows.”</p>
+              <div class="person">
+                <div class="person-avatar">J</div>
+                <div>
+                  <strong>James</strong><br />
+                  <span>System Admin</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="container">
+          <div class="section-header">
+            <h2>Frequently asked questions</h2>
+            <p>Helpful answers for users and supporters.</p>
+          </div>
+
+          <div class="faq-grid">
+            <article class="faq-item">
+              <h3>What does the tool detect?</h3>
+              <p>It checks the CPU, memory, and operating system information on the machine where it runs.</p>
+            </article>
+
+            <article class="faq-item">
+              <h3>Is this a web app?</h3>
+              <p>No. This project is a Python utility that runs locally or in GitHub Actions.</p>
+            </article>
+
+            <article class="faq-item">
+              <h3>Can I contribute?</h3>
+              <p>Yes. You can open issues, suggest improvements, and help expand the project.</p>
+            </article>
+
+            <article class="faq-item">
+              <h3>How do I support the project?</h3>
+              <p>Use the support section below and replace the placeholder links with your own payment method.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta" id="support">
+        <div class="container">
+          <div class="cta-box">
+            <div>
+              <h3>Ready to support the project?</h3>
+              <p>Replace the placeholder links with your final payment and sponsorship URLs.</p>
+            </div>
+            <a href="#pricing" class="btn btn-primary">View support options</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <div>© 2026 Hardware Heroes 2.0</div>
+        <div>Built with Python • Open for contributions</div>
+      </div>
+    </footer>
+  </body>
 </html>
