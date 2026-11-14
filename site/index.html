@@ -4,10 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0b1424" />
-    <meta
-      name="description"
-      content="Hardware Heroes 2.0 is a lightweight Python utility for reporting processor, CPU core and thread counts, total memory, and operating system details."
-    />
+    <meta name="description" content="Hardware Heroes 2.0 is a lightweight Python utility for reporting processor, CPU core and thread counts, total memory, and operating system details." />
     <title>Hardware Heroes 2.0 | A clear view of your system</title>
     <style>
       :root {
@@ -24,7 +21,6 @@
         --radius: 20px;
         --shadow: 0 18px 55px rgba(20, 42, 75, .09);
       }
-
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; scroll-padding-top: 85px; }
       body {
@@ -41,7 +37,6 @@
       .container { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
       .skip-link { position: absolute; top: -50px; left: 16px; z-index: 20; padding: 10px 14px; background: white; color: var(--ink); border-radius: 8px; }
       .skip-link:focus { top: 12px; }
-
       .site-header { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.94); border-bottom: 1px solid var(--line); backdrop-filter: blur(14px); }
       .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
       .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font-weight: 800; letter-spacing: -.025em; white-space: nowrap; }
@@ -50,14 +45,14 @@
       .nav-links { display: flex; align-items: center; gap: 24px; }
       .nav-links a:not(.button) { color: #475569; font-size: .92rem; font-weight: 650; text-decoration: none; }
       .nav-links a:not(.button):hover { color: var(--blue); }
-
       .button { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 18px; border: 1px solid transparent; border-radius: 12px; background: var(--blue); color: white; font-size: .94rem; font-weight: 750; text-decoration: none; transition: background .18s ease, transform .18s ease, box-shadow .18s ease; }
       .button:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 9px 22px rgba(40,100,232,.2); }
       .button.secondary { color: var(--ink); background: white; border-color: var(--line); }
       .button.secondary:hover { background: #f1f5fb; box-shadow: none; }
       .button.dark { background: var(--night); }
       .button.dark:hover { background: #26364f; }
-
+      .button.ghost { background: transparent; border-color: rgba(255,255,255,.25); color: white; }
+      .button.ghost:hover { background: rgba(255,255,255,.06); }
       .hero { position: relative; overflow: hidden; padding: 88px 0 82px; color: white; background: radial-gradient(ellipse at 86% 13%, rgba(101,224,192,.2), transparent 30%), radial-gradient(ellipse at 6% 110%, rgba(40,100,232,.35), transparent 44%), var(--night); }
       .hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 54px; align-items: center; }
       .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #a7f2df; font-size: .76rem; font-weight: 850; letter-spacing: .13em; text-transform: uppercase; }
@@ -66,11 +61,8 @@
       .hero-title-accent { color: var(--mint); }
       .hero-copy { max-width: 610px; margin: 0; color: #c4d1e2; font-size: 1.1rem; }
       .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 29px; }
-      .hero .button.secondary { color: white; background: transparent; border-color: rgba(255,255,255,.27); }
-      .hero .button.secondary:hover { background: rgba(255,255,255,.08); }
       .hero-note { margin-top: 22px; color: #a7b6ca; font-size: .88rem; }
       .hero-note strong { color: #e5edf8; }
-
       .terminal { overflow: hidden; border: 1px solid rgba(255,255,255,.13); border-radius: 18px; background: #080f1c; box-shadow: 0 30px 80px rgba(0,0,0,.28); }
       .terminal-top { display: flex; align-items: center; gap: 7px; padding: 15px 18px; border-bottom: 1px solid rgba(255,255,255,.1); color: #9babbe; font-size: .8rem; }
       .terminal-dot { width: 9px; height: 9px; border-radius: 50%; background: #f87171; }
@@ -81,7 +73,6 @@
       .terminal .prompt { color: var(--mint); }
       .terminal .sample { color: #a9c5e8; }
       .terminal-caption { padding: 0 23px 18px; color: #8192aa; font-size: .75rem; }
-
       section { padding: 78px 0; }
       .section-heading { max-width: 700px; margin-bottom: 32px; }
       .kicker { color: var(--blue); font-size: .75rem; font-weight: 850; letter-spacing: .13em; text-transform: uppercase; }
@@ -93,7 +84,6 @@
       .feature-icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 13px; color: var(--blue); background: #edf4ff; font-size: 1.15rem; font-weight: 800; }
       .card h3 { margin: 16px 0 6px; font-size: 1.08rem; letter-spacing: -.015em; }
       .card p { margin: 0; color: var(--muted); font-size: .92rem; }
-
       .details { background: white; }
       .details-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 52px; align-items: center; }
       .details-copy p { color: var(--muted); }
@@ -105,7 +95,6 @@
       .code-title span:last-child { color: #8293aa; }
       .code-panel pre { overflow-x: auto; margin: 0; padding: 21px; font-size: .86rem; line-height: 1.85; }
       .code-panel .muted-code { color: #9eb0c8; }
-
       .install-section { background: #f1f5fa; }
       .install-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 20px; align-items: stretch; }
       .requirements { padding: 25px; border: 1px solid var(--line); border-radius: var(--radius); background: white; }
@@ -120,21 +109,18 @@
       .install-step code { display: block; margin-top: 9px; padding: 9px 11px; border-radius: 8px; background: #101827; color: #d9e7fa; font-size: .83rem; }
       .package-note { margin-top: 19px; padding: 14px 17px; border-left: 3px solid var(--blue); border-radius: 8px; color: #526078; background: #eaf2ff; font-size: .9rem; }
       .package-note a { color: var(--blue-dark); font-weight: 700; }
-
       .scope { color: white; background: var(--night); }
       .scope .section-heading p { color: #b9c8da; }
       .scope-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .scope .card { color: var(--ink); }
       .scope .card h3 { margin-top: 0; }
       .scope .card p { font-size: .9rem; }
-
       .project-links { grid-template-columns: 1fr 1fr; }
       .link-card { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding: 22px; border: 1px solid var(--line); border-radius: 16px; background: white; text-decoration: none; }
       .link-card:hover { border-color: #b6ccfa; box-shadow: 0 8px 24px rgba(40,100,232,.07); }
       .link-card h3 { margin: 0 0 5px; font-size: 1rem; }
       .link-card p { margin: 0; color: var(--muted); font-size: .88rem; }
       .arrow { flex: 0 0 auto; color: var(--blue); font-size: 1.2rem; }
-
       .cta { padding: 0 0 76px; }
       .cta-box { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 32px; border: 1px solid #dce8f8; border-radius: 22px; background: linear-gradient(120deg, #eaf3ff, #e8fbf5); }
       .cta-box h2 { margin: 0 0 7px; font-size: clamp(1.7rem, 3vw, 2.35rem); }
@@ -144,6 +130,19 @@
       .footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
       .footer-links a { text-decoration: none; }
       .footer-links a:hover { color: var(--blue); }
+
+      .auth-area { display: none; margin-top: 20px; }
+      .auth-area.visible { display: block; }
+      .auth-panel { max-width: 520px; margin: 0 auto; padding: 28px; border: 1px solid var(--line); border-radius: 22px; background: white; box-shadow: var(--shadow); }
+      .auth-panel h3 { margin: 0 0 16px; font-size: 1.35rem; }
+      .auth-form { display: grid; gap: 12px; }
+      .auth-form input { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; font-size: 1rem; }
+      .auth-form button { cursor: pointer; }
+      .auth-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+      .auth-status { margin-top: 14px; padding: 10px 12px; border-radius: 10px; font-size: .92rem; }
+      .auth-status.error { background: #fff1f2; color: #b42318; }
+      .auth-status.success { background: #ecfdf5; color: #027a48; }
+      .hidden { display: none; }
 
       @media (max-width: 900px) {
         .hero-grid, .details-grid, .install-grid { grid-template-columns: 1fr; }
@@ -180,7 +179,7 @@
           <a href="#features">Features</a>
           <a href="#install">Install</a>
           <a href="#project">Project</a>
-          <a class="button" href="https://github.com/abestech123HardwareHeroes2-0/HardwareHeroes-2.0">View on GitHub <span aria-hidden="true">↗</span></a>
+          <button id="authToggle" class="button" type="button">Login</button>
         </nav>
       </div>
     </header>
@@ -194,7 +193,7 @@
             <p class="hero-copy">Hardware Heroes 2.0 prints essential information about the computer where you run it: processor, physical cores, logical threads, total memory, and operating system.</p>
             <div class="hero-actions">
               <a class="button" href="#install">Get started <span aria-hidden="true">↓</span></a>
-              <a class="button secondary" href="https://github.com/abestech123HardwareHeroes2-0/HardwareHeroes-2.0">Explore the source</a>
+              <a class="button ghost" href="https://github.com/abestech123HardwareHeroes2-0/HardwareHeroes-2.0">Explore the source</a>
             </div>
             <p class="hero-note"><strong>Python 3.9+</strong> · Requires <strong>psutil</strong> · MIT licensed</p>
           </div>
@@ -210,6 +209,26 @@ CPU Threads: [logical thread count]
 RAM: [total memory in GB]
 Operating System: [system and release]</span></pre>
             <div class="terminal-caption">Illustrative fields only; actual values depend on the machine running the script.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="auth-area visible" id="authArea">
+        <div class="container">
+          <div class="auth-panel">
+            <h3 id="authTitle">Welcome</h3>
+            <div id="authStatus" class="auth-status hidden" role="status" aria-live="polite"></div>
+            <div id="authFormWrap">
+              <form id="authForm" class="auth-form">
+                <input id="emailInput" type="email" placeholder="Email address" required />
+                <input id="passwordInput" type="password" placeholder="Password" required />
+                <div class="auth-actions">
+                  <button id="signInBtn" class="button" type="submit">Sign in</button>
+                  <button id="signUpBtn" class="button secondary" type="button">Create account</button>
+                  <button id="signOutBtn" class="button secondary hidden" type="button">Sign out</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </section>
@@ -329,5 +348,114 @@ Operating System: name and release</pre>
         </nav>
       </div>
     </footer>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyC2TQFQKp09i-RmIwD-dXliS-ErPlH1Ho4",
+        authDomain: "abestech123hardwareheroes2-0.firebaseapp.com",
+        projectId: "abestech123hardwareheroes2-0",
+        storageBucket: "abestech123hardwareheroes2-0.firebasestorage.app",
+        messagingSenderId: "865851338352",
+        appId: "1:865851338352:web:887d4e4753582b117d8eb5",
+        measurementId: "G-MY9KRF1DPL"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      const authArea = document.getElementById("authArea");
+      const authToggle = document.getElementById("authToggle");
+      const authForm = document.getElementById("authForm");
+      const emailInput = document.getElementById("emailInput");
+      const passwordInput = document.getElementById("passwordInput");
+      const signInBtn = document.getElementById("signInBtn");
+      const signUpBtn = document.getElementById("signUpBtn");
+      const signOutBtn = document.getElementById("signOutBtn");
+      const authStatus = document.getElementById("authStatus");
+      const authTitle = document.getElementById("authTitle");
+
+      function showStatus(message, kind = "success") {
+        authStatus.textContent = message;
+        authStatus.classList.remove("hidden", "success", "error");
+        authStatus.classList.add(kind === "success" ? "success" : "error");
+      }
+
+      function setSignedOutUI() {
+        authTitle.textContent = "Welcome";
+        authForm.classList.remove("hidden");
+        signInBtn.classList.remove("hidden");
+        signUpBtn.classList.remove("hidden");
+        signOutBtn.classList.add("hidden");
+        authToggle.textContent = "Login";
+      }
+
+      function setSignedInUI(user) {
+        authTitle.textContent = `Signed in as ${user.email}`;
+        authForm.classList.add("hidden");
+        signInBtn.classList.add("hidden");
+        signUpBtn.classList.add("hidden");
+        signOutBtn.classList.remove("hidden");
+        authToggle.textContent = "Account";
+      }
+
+      authToggle.addEventListener("click", () => {
+        authArea.classList.toggle("visible");
+      });
+
+      signUpBtn.addEventListener("click", async () => {
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        if (!email || !password) {
+          showStatus("Please enter an email and password.", "error");
+          return;
+        }
+
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          showStatus("Account created successfully.", "success");
+        } catch (error) {
+          showStatus(error.message, "error");
+        }
+      });
+
+      authForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        if (!email || !password) {
+          showStatus("Please enter both email and password.", "error");
+          return;
+        }
+
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+          showStatus("Signed in successfully.", "success");
+        } catch (error) {
+          showStatus(error.message, "error");
+        }
+      });
+
+      signOutBtn.addEventListener("click", async () => {
+        try {
+          await signOut(auth);
+          showStatus("Signed out successfully.", "success");
+        } catch (error) {
+          showStatus(error.message, "error");
+        }
+      });
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setSignedInUI(user);
+        } else {
+          setSignedOutUI();
+        }
+      });
+    </script>
   </body>
 </html>
